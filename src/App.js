@@ -4,6 +4,7 @@ import 'materialize-css/dist/js/materialize.min';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import UsersList from './components/users/UsersList'
+import PostList from './components/Posts/PostList'
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path='/' component={UsersList}/>
-            <Route />
+            <Route path='/posts' component={PostList} />
           </Switch>
         </div>
       </BrowserRouter>
