@@ -1,4 +1,4 @@
-import { ADD_POST, DELETE_POST, POST_FETCHED, POST_CREATED } from '../actions/types';
+import { ADD_POST, POST_DELETED, POST_FETCHED, POST_CREATED } from '../actions/types';
 
 const postReducer = (state = [], action) => {
 
@@ -9,8 +9,9 @@ const postReducer = (state = [], action) => {
             }
         case POST_CREATED:
             return [...state, action.post]
-        case 'DELETE_POST':
-            return state.filter((post)=>post.id !== action.id);
+        case POST_DELETED:
+            let newState = state.posts.filter((post)=>post.id !== action.id);
+            return { posts: newState }
         case 'EDIT_POST':
             return state.map((post)=>post.id === action.id ? {...post,editing:!post.editing}:post)
         case 'UPDATE':

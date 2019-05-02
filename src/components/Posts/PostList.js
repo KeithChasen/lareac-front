@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Post from "./Post";
 import EditPost from "./EditPost";
 
-import { fetchAllPosts } from '../../actions/Post'
+import { fetchAllPosts, deletePost } from '../../actions/Post'
 
 class PostList extends Component {
 
@@ -19,7 +19,7 @@ class PostList extends Component {
                         {
                             post.editing ?
                                 <EditPost post={post} key={post.id} /> :
-                                <Post key={post.id} post={post} />
+                                <Post key={post.id} post={post} deletePost={deletePost} />
                         }
                     </div>
                 )
@@ -42,14 +42,7 @@ const mapStateToProps = state => {
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         fetchData: url => dispatch(postsFetchData(url))
-//     }
-// }
-
 export default connect(
     mapStateToProps,
     { fetchAllPosts }
-    // mapDispatchToProps
 )(PostList)
