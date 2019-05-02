@@ -1,12 +1,14 @@
-import { ADD_POST, DELETE_POST, FETCH_POST } from '../actions/types';
+import { ADD_POST, DELETE_POST, POST_FETCHED, POST_CREATED } from '../actions/types';
 
 const postReducer = (state = [], action) => {
 
     switch(action.type) {
-        case FETCH_POST:
-            return {posts: action.posts};
-        case 'ADD_POST':
-            return state.concat([action.data]);
+        case POST_FETCHED:
+            return {
+                posts: action.posts
+            }
+        case POST_CREATED:
+            return [...state, action.post]
         case 'DELETE_POST':
             return state.filter((post)=>post.id !== action.id);
         case 'EDIT_POST':

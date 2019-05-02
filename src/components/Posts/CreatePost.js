@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from "react-redux";
+import { createPost } from '../../actions/Post'
+
 
 class CreatePost extends Component {
     handleSubmit = e => {
@@ -9,14 +11,9 @@ class CreatePost extends Component {
             title,
             editing: false
         }
-        this.props.dispatch({
-            type: 'ADD_POST',
-            data
-        })
+        createPost(data)
 
         this.getTitle.value = ''
-
-        console.log(data)
     }
 
     render() {
@@ -32,4 +29,13 @@ class CreatePost extends Component {
     }
 }
 
-export default connect()(CreatePost)
+const mapStateToProps = state => {
+    return {
+        post: state.post
+    }
+}
+
+export default connect(
+    null,
+    { createPost }
+)(CreatePost)
