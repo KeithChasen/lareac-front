@@ -6,9 +6,13 @@ const Navbar = props => {
         <nav className="nav-wrapper grey darken-1">
             <div className="container">
                 <Link to='/' className='brand-logo'>Lareac</Link>
+
+
+
+
                 <ul className="right">
                     <li>
-                        <NavLink to='/posts'>Posts</NavLink>
+                        <NavLink to='/create'>Create Posts</NavLink>
                     </li>
                 </ul>
 

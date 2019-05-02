@@ -1,45 +1,37 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import * as actions from '../../actions/Post'
+import Post from "./Post";
+import EditPost from "./EditPost";
 
-import { API_BASE_URL } from "../../config/config";
-
-
-import { postsFetchData } from "../../actions/posts";
+import { fetchAllPosts } from '../../actions/Post'
 
 class PostList extends Component {
-    // constructor() {
-    //     super()
-    //     this.deletePost = this.deletePost.bind(this)
-    // }
-    //
-    // deletePost(post) {
-    //     this.props.deletePost(post)
-    // }
 
     componentDidMount() {
-        this.props.fetchData(API_BASE_URL + '/posts')
+        this.props.fetchAllPosts()
     }
 
     render() {
+        const { posts } = this.props
 
-        const postList = this.props.posts.map(post => {
-            return (
-                <tr key={post.id}>
-                    <td>{post.title}</td>
-                    <td>
-                        <button
-                            className="btn btn-block"
-                            onClick={() => this.deletePost(post)}
-                        >
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+        let postList = (posts) ? posts.map(post => (
+                    <div key={post.id}>
+                        {
+                            post.editing ?
+                                <EditPost post={post} key={post.id} /> :
+                                <Post key={post.id} post={post} />
+                        }
+                    </div>
+                )
             )
-        })
+         : 'No posts'
 
-        return (postList)
+        return (
+            <div>
+                <h1>Posts</h1>
+                {postList}
+            </div>
+        )
 
     }
 }
@@ -50,10 +42,14 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchData: url => dispatch(postsFetchData(url))
-    }
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         fetchData: url => dispatch(postsFetchData(url))
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+export default connect(
+    mapStateToProps,
+    { fetchAllPosts }
+    // mapDispatchToProps
+)(PostList)
