@@ -1,5 +1,4 @@
-// import { getPosts, addPost, deletePost, changePost} from '../api'
-import { ADD_POST, POST_DELETED, POST_CREATED, POST_FETCHED } from './types';
+import { POST_DELETED, POST_CREATED, POST_FETCHED } from './types';
 import {API_BASE_URL} from "../config/config";
 import history from '../history'
 
@@ -35,8 +34,7 @@ export const deletePost = id => dispatch => {
             headers: headers,
         })
             .then(response => response.json())
-            .then(r => {
-                console.log(r)
+            .then(() => {
                 dispatch(postDeleted(id))
             })
             .catch(err => {
@@ -44,26 +42,24 @@ export const deletePost = id => dispatch => {
             })
 }
 
-export const createPost = (post) => {
+export const createPost = post => dispatch => {
+
     let headers = new Headers();
 
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
 
-    return fetch(API_BASE_URL + '/post', {
+    fetch(API_BASE_URL + '/post', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
             title: post.title,
         })
     })
-        .then(response => {
-            return response
-        })
-        .then(res => {
-            return res.json()
-        })
+        .then(response => response.json())
         .then(r => {
+            post.id = r.data.id
+            dispatch(postCreated(post))
             history.push('/')
         })
         .catch(err => {

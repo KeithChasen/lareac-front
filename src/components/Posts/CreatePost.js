@@ -11,7 +11,7 @@ class CreatePost extends Component {
             title,
             editing: false
         }
-        createPost(data)
+        this.props.createPost(data)
 
         this.getTitle.value = ''
     }

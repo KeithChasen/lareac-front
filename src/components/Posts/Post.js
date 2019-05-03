@@ -15,7 +15,6 @@ class Post extends Component {
             <div id={this.props.post.id}>
                 <h2>
                     {this.props.post.title}
-                    {this.props.post.id}
                 </h2>
 
                 <button
@@ -24,9 +23,7 @@ class Post extends Component {
                     Edit
                 </button>
 
-                <button
-                    onClick={ (e) => this.deletePostFunc(e) }
-                >
+                <button onClick={ (e) => this.deletePostFunc(e) }>
                     Delete
                 </button>
 
