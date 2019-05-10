@@ -2,6 +2,8 @@ import { POST_DELETED, POST_CREATED, POST_FETCHED } from './types';
 import {API_BASE_URL} from "../config/config";
 import history from '../history'
 
+import axios from 'axios'
+
 export const postsFetched = (posts) => {
     return {
         type: POST_FETCHED,
@@ -24,14 +26,13 @@ export const postCreated = (post) => {
 }
 
 export const deletePost = id => dispatch => {
-    let headers = new Headers();
-
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
 
     fetch(API_BASE_URL + '/post/' + id, {
             method: 'DELETE',
-            headers: headers,
+            headers: new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            })
         })
             .then(response => response.json())
             .then(() => {
@@ -44,24 +45,16 @@ export const deletePost = id => dispatch => {
 
 export const createPost = post => dispatch => {
 
-    let headers = new Headers();
-
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-
-    fetch(API_BASE_URL + '/post', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({
-            title: post.title,
-        })
+    axios.post(API_BASE_URL + '/post/', {
+        title: post.title,
+        body: post.body,
     })
-        .then(response => response.json())
         .then(r => {
             post.id = r.data.id
             dispatch(postCreated(post))
             history.push('/')
         })
+
         .catch(err => {
             console.log(err)
         })
@@ -70,15 +63,9 @@ export const createPost = post => dispatch => {
 export const fetchAllPosts =  () => {
     return (dispatch) => {
 
-        fetch(API_BASE_URL + '/posts')
-            .then(response => {
-                return response
-
-            }).then(res => {
-                return res.json()
-            })
+        axios.get(API_BASE_URL + '/posts')
             .then(r => {
-                return dispatch(postsFetched(r))
+                return dispatch(postsFetched(r.data))
             })
             .catch(error => {
                 throw(error);
@@ -86,14 +73,3 @@ export const fetchAllPosts =  () => {
     };
 
 };
-
-
-
-
-
-
-
-
-
-
-

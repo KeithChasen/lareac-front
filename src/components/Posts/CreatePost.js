@@ -7,8 +7,10 @@ class CreatePost extends Component {
     handleSubmit = e => {
         e.preventDefault()
         const title = this.getTitle.value
+        const body = this.getBody.value
         const data = {
             title,
+            body,
             editing: false
         }
         this.props.createPost(data)
@@ -22,6 +24,7 @@ class CreatePost extends Component {
                 <h1>Create post</h1>
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" required ref={(input) => this.getTitle = input} placeholder="Title"/>
+                    <input type="text" required ref={(input) => this.getBody = input} placeholder="Body"/>
                     <button>Create</button>
                 </form>
             </div>
